@@ -8,21 +8,22 @@ execute:
   message: false
 
 book:
-  title: "YOUR PROJECT TITLE"
+  title: Columbia Center on Poverty and Social Policy
   author:
-    - AUTHOR1 (UNI1)
-    - AUTHOR2 (UNI2)
-  repo-url: https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME
-  date: today
+    - Zhiyan Yang (zy2745)
+  repo-url: https://github.com/ClaudiaYang/Columbia-Center-on-Poverty-and-Social-Policy.git
+  date: 11/12/2025
   page-footer:
     right: |
       This book was built with <a href="https://quarto.org/">Quarto</a>.
   repo-actions: [edit, issue]
   chapters:
-    - index.qmd
-    - data.qmd
-    - results.qmd
-    - conclusion.qmd
+    - Introduction.qmd
+    - Week_1.qmd
+    - Week_2.qmd
+    - Week_3.qmd
+    - Week_4.qmd
+    - Conclusion.qmd
 
 format:
   html:
