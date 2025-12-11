@@ -21,7 +21,7 @@ cpsp_simulation_data.csv: dataset for changes in poverty metrics
 demographic_data.csv: demographic dataset
 
 
-## Technology 
+## Technology and Packages
 R Language: Core statistical computing.
 
 Quarto: For reproducible reporting and website generation.
