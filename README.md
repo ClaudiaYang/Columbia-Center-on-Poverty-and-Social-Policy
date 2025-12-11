@@ -40,4 +40,24 @@ Plotly: For converting static charts into interactive tooltips.
 
 Viridis: Applied for perceptually uniform, colorblind-safe color scales.
 
+## How to reproduce
+Clone this repository:
+
+
+Bash
+
+git clone https://github.com/ClaudiaYang/Columbia-Center-on-Poverty-and-Social-Policy.git
+Open the project in RStudio.
+
+Install dependencies:
+
+R
+
+install.packages(c("tidyverse", "plotly", "quarto", "viridis"))
+Render the website:
+
+R
+
+quarto::render_book()
+
 
