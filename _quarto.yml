@@ -23,7 +23,7 @@ book:
     - Week_2.qmd
     - Week_3.qmd
     - Week_4.qmd
-    - conclusion.qmd
+    - project_conclusion.qmd
 
 format:
   html:
