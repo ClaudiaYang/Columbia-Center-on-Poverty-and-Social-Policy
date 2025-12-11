@@ -50,9 +50,8 @@ Viridis: Applied for perceptually uniform, colorblind-safe color scales.
 2. Open the project in RStudio.
 
 3. Install dependencies:
-       ```r
        install.packages(c("tidyverse", "plotly", "quarto", "viridis"))
-    ```
+       
 4. Render the website:
     ```r
        quarto::render_book()
