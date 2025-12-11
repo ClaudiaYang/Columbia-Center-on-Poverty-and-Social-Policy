@@ -1,0 +1,108 @@
+# Week 3
+
+## Objectives
+Based on designs that are moving forward, finetune the labeling, colors, and emphasize storytelling value. 
+
+Create a story board for the simulation tool
+
+## Visual 1: Rendered Stacked Bar Chart (highlight)
+```{r}
+library(readr)
+library(dplyr)
+library(tidyverse)
+library(plotly)
+
+df <- read_csv("cpsp_simulation_data.csv")
+
+plot_data <- df |> 
+  pivot_longer(
+    cols = c("before", "current", "simulation"),
+    names_to = "scenario",
+    values_to = "value"
+  ) |> 
+  mutate(
+    scenario = factor(scenario, levels = c("before", "current", "simulation")),
+    
+    type = factor(type, levels = c("low income", "near", "poverty", "deep"))
+  ) |> 
+  arrange(type)
+
+magnitude_colors <- c(
+  "poverty"    = "#D55E00",  # Orange (Highlight)
+  "near"       = "#555555",  # Dark Gray
+  "deep"       = "#999999",  # Medium Gray
+  "low income" = "#E0E0E0"   # Light Gray
+)
+
+p1 <- ggplot(plot_data, aes(x = scenario, y = value, fill = type)) +
+  geom_col(position = "identity", width = 0.6, color = "white") +
+  
+  scale_fill_manual(values = magnitude_colors, name = "Category") +
+  
+  theme_minimal() +
+  labs(
+    title = "Poverty Measures by Scenario",
+    subtitle = "Nested categories: 'Low Income' includes all other groups.",
+    x = NULL,
+    y = "Percentage"
+  )
+
+ggplotly(p1)
+```
+I implemented a logical stacking order that mirrors socioeconomic strata, placing Deep Poverty at the base and Low Income at the top. This arrangement intuitively maps logic of these four poverty metrics, because deep poverty is nested in poverty, and poverty is nested in near poverty etc. Furthermore, I applied a strategic color palette to guide the viewer’s attention. The Poverty Rate has the largest reduction under this simulation, so I colored it in a bold orange against neutral gray background. I also made this interactive, so the audience can directly see the exact number without looking back to the numeric table. Finally, I linked color intensity to the magnitude of change, encoding a third layer of data—where darker hues signal larger shifts—without adding visual clutter.
+
+## Visual 2: Rendered Stacked Bar Chart (Perceptually Uniform)
+
+```{r}
+viridis_magnitude_colors <- c(
+  "poverty"    = "#440154", # Dark Purple
+  "near"       = "#31688e", # Blue
+  "deep"       = "#35b779", # Green
+  "low income" = "#fde725"  # Yellow
+)
+
+plot_data <- df |> 
+  pivot_longer(
+    cols = c("before", "current", "simulation"),
+    names_to = "scenario",
+    values_to = "value"
+  ) |> 
+  mutate(
+    scenario = factor(scenario, levels = c("before", "current", "simulation")),
+    
+    type = factor(type, levels = c("low income", "near", "poverty", "deep"))
+  ) |> 
+  arrange(type) 
+
+p2 <- ggplot(plot_data, aes(x = scenario, y = value, fill = type)) +
+  geom_col(position = "identity", width = 0.6, color = "white", size = 0.2) +
+  
+  scale_fill_manual(values = viridis_magnitude_colors, name = "Category") +
+  
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Poverty Measures by Scenario",
+    subtitle = "Nested categories using custom Viridis palette",
+    x = NULL,
+    y = "Percentage"
+  ) +
+  theme(
+    panel.grid.major.x = element_blank(),
+    plot.title = element_text(face = "bold")
+  )
+
+ggplotly(p2)
+```
+
+I also visualized the same information in Visual 1 using the perceptually uniform color scale, where the perceived difference between hues aligns linearly with the scalar differences in the data. This eliminates the visual bias common in standard palettes, where arbitrary jumps in brightness can exaggerate minor changes. Crucially, I used data encoding to map the magnitude of change directly to color intensity—darker segments to signify larger reductions, which makes the most important variable the most visually salient feature of the chart.
+
+## Story Board on Notion
+[Click here to view the Design Storyboard on Notion](https://www.notion.so/Design-story-board-2c33d60cc12280a196e1ed923076c950)
+
+## Supervisor Feedback and Next Steps:
+The supervisor preferred Visual 1 because it is more intuitive, and she suggested static plot instead of interactive plot because too many labels could potentially make the graph hard to read. 
+
+She commented on the storyboard (see the link). Her general idea is that through the storyboard, the policymakers/users would be able to tell whether their targeted vulnerable communites are benefited, and whether their goal of poverty reduction is achieved. They should be able to decide how the next policy simulation should be after going through the storyboard. 
+
+
+

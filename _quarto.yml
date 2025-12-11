@@ -18,7 +18,7 @@ book:
       This book was built with <a href="https://quarto.org/">Quarto</a>.
   repo-actions: [edit, issue]
   chapters:
-    - Introduction.qmd
+    - index.qmd
     - Week_1.qmd
     - Week_2.qmd
     - Week_3.qmd

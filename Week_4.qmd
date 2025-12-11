@@ -1,0 +1,131 @@
+# Week 4
+
+## Objectives
+Polish and get the most effective visuals.
+
+## Visual 1: Aggregated effects on poverty metrics
+```{r}
+library(readr)
+library(dplyr)
+library(tidyverse)
+library(plotly)
+library(ggplot2)
+df <- read_csv("cpsp_simulation_data.csv")
+
+plot_data <- df |> 
+  pivot_longer(
+    cols = c("before", "current", "simulation"),
+    names_to = "indicator",
+    values_to = "value"
+  ) |> 
+  mutate(
+    x_num = match(indicator, c("before", "current", "simulation")),
+    
+  
+    type = factor(type, levels = c("low income", "near", "poverty", "deep"))
+  ) |> 
+  arrange(type)
+
+ggplot(plot_data, aes(x = x_num, y = value, fill = type)) +
+  geom_area(position = "identity", alpha = 0.9, linewidth = 0.5, color = "white") +
+  
+  scale_fill_manual(
+    values = c(
+      "low income" = "#E0E0E0", 
+      "near"       = "#4D4D4D", 
+      "poverty"    = "#D95F02", 
+      "deep"       = "#999999"  
+    )
+  ) +
+  
+  scale_x_continuous(
+    breaks = 1:3,
+    labels = c("before", "current", "simulation"),
+    expand = c(0, 0)
+  ) +
+  
+  scale_y_continuous(expand = c(0, 0)) +
+  
+  labs(
+    title = "Impact of Simulation on Poverty",
+    subtitle = "Nested Areas: Showing absolute scale of each category",
+    x = "",
+    y = "Percentage",
+    fill = "Category"
+  ) +
+  
+  theme_minimal(base_size = 16) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    legend.position = "right",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  )
+```
+This aggregate baseline chart responds to the supervisor feedback on Notion. This visualization establishes the big picture context, it maps the relative proportions of the four socioeconomic strata using the established focus color palette (Orange/Gray). While Low Income households make up the largest segment of the population, the policy is more effective at reducing standard Poverty. By familiarizing the audience with the hierarchy—where Low Income forms the massive base and Poverty is the highlighted target, this chart ensures audience understand the scale of the population before interpreting other visualizations.
+
+## Visual 2: Lollipop Chart to address interactive effect in demographic group
+```{r}
+# Create Mock Raw Dataset (One row per person) 
+set.seed(123) 
+n_people <- 1000
+
+df_raw <- tibble(
+  id = 1:n_people,
+  
+  age = sample(c("Children (<18)", "Working Age", "Senior"), n_people, replace = TRUE),
+  density = sample(c("Rural", "Urban"), n_people, replace = TRUE),
+  race = sample(c("White", "Black", "Latino", "Other"), n_people, replace = TRUE),
+  family = sample(c("Married", "Single Parent"), n_people, replace = TRUE),
+  
+  is_poor_current = rbinom(n_people, 1, 0.20),
+  is_poor_sim     = rbinom(n_people, 1, 0.15) 
+)
+
+children_analysis <- df_raw |>
+  filter(age == "Children (<18)") |>
+
+  pivot_longer(
+    cols = c("density", "race", "family"),
+    names_to = "category_name",
+    values_to = "group_name"
+  ) |>
+  
+  group_by(category_name, group_name) |>
+  summarize(
+    current_rate = mean(is_poor_current),
+    sim_rate     = mean(is_poor_sim),
+    .groups = "drop"
+  ) |>
+  
+  mutate(
+    reduction = (current_rate - sim_rate) * 100, 
+    label = paste0(group_name, " (", tools::toTitleCase(category_name), ")")
+  )
+
+
+ggplot(children_analysis, aes(x = reduction, y = reorder(label, reduction))) +
+  geom_segment(aes(x = 0, xend = reduction, y = label, yend = label), color = "gray60") +
+  geom_point(size = 5, color = "#D95F02") +
+  
+  labs(
+    title = "Interactive Effects: Which Children Benefit Most?",
+    subtitle = "Reduction in Poverty Rate by Demographic Sub-Group",
+    x = "Reduction (Percentage Points)",
+    y = ""
+  ) +
+  geom_text(aes(label = sprintf("%.1f", reduction)), vjust = -0.8, size = 3.5) +
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.major.y = element_blank(),
+    plot.title = element_text(face = "bold")
+  )
+```
+In  order to address the interactive effect of the demographic sub-categories we discussed in week 2, I created a mock dataset where each row is a person, and each column is the demographic category(age, race, density, gender, education etc), and the poverty status before and after the simulation. I don't have the access to the real dataset right now, so I used this prototype to visualize the intersectional impact. I focused on children (the top beneficiary) here, and compare which children benefit most. This prototype demonstrates how specific factors such as living in rural area versus living in urban one, can drastically alter the policy's impact on a child. 
+
+## Supervisor Feedback
+The supervisor agreed that visual 1 is useful for showing the aggregated effects for the policy simulation. She suggested that there could be a pie chart showing the composition of current poverty population for current policy scenario. This is the infographic to help the audience see the visual distribution of the four poverty metrics before the shift happened.
+
+The supervisor validated the interactive demographic analysis as a key insight generator. While I am currently relying on a mock dataset, this approval confirms the methodology. The next step upon receiving full database access will be to replicate this code on the live microdata to generate the final intersectional reports.
+
+

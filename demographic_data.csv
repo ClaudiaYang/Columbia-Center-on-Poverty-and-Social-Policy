@@ -1,0 +1,17 @@
+Category,Group,Current_Rate,Sim_Rate
+Age,Children (<18),13.6,13.3
+Age,Working Age (18-64),12.2,12.1
+Age,Seniors (65+),14,13.9
+Race,Black,18.4,18.2
+Race,Latino,20.8,20.6
+Race,Other,13.5,13.3
+Race,White,8.8,8.7
+Education,Not enrolled,12.7,12.5
+Education,High school,13.2,13.1
+Education,College,16.3,16.2
+Density,Rural/Non-Metro,11.9,11.7
+Density,Metro Area,13,12.9
+Gender,Male,12.4,12.3
+Gender,Female,13.3,13.1
+Family Type,Family no kids,13.7,13.6
+Family Type,Family w/ kids,10.8,10.6

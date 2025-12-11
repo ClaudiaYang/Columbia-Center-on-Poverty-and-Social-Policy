@@ -1,1 +1,59 @@
-# Introduction
+# Introduction & Data
+## Introduction
+I am collaborating with Columbia’s Center on Poverty and Social Policy (CPSP) for this final project. The CPSP now has a policy simulation tool, which enables user to choose different policy scenarios and explore the impact of the simulated policy on vulnerable communities. The impacts include change in different poverty measurements in general, change in specific demographic groups such as age and race, and change in different geographic regions (states). 
+
+In this four-week long project, I focused on SNAP (Supplemental Nutrition Assistance Program) scenarios, one of the most important federal programs supporting low-income households. The simulation tool has some visualizations to show the effect of different policy simulations, but the CPSP thinks that the visualizations they have now are difficult to interpret, lack of narrative structure, and do not effectively communicate key insights to broader audiences. My role is to make complex metrics such as poverty rates, income change, and people lifted out of poverty easier to interpret, and more engaging for advocates, policymakers, and researchers through redesigning these visualizations. 
+
+The reason why I chose to work with CPSP and helping them to improve visualizations is because I believe that data science is most useful when being applied to help the people in need. In this project, I hope that by making the visualizations of the policy simulations, I would be able to help the decision-makers understand the consequences of different policy choices, and how they could improve the lives of the targeted vulnerable communities.
+
+## Data
+My primary responsibility in this project is to propose enhanced visualization strategies for the CPSP policy simulations. Because I do not have direct access to the full CPSP database, I compiled a custom dataset derived directly from the simulation tool’s output. To ensure consistency, I focused on a single policy scenario: the Low-Cost Food Plan using the Supplemental Poverty Measure, scoped to both National and California levels.
+
+The source data consists of tabular outputs tracking metric variations across before policy, current policy, and post-simulation states. I consolidated these outputs into two distinct datasets with zero missing values. This project serves as a proof-of-concept; effective visualizations developed during this prototyping phase are intended to be scaled and applied to the comprehensive database in the future.
+
+
+### Dataset 1: change in poverty metrics after simulation
+```{r}
+library(readr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# 1. Recreate the dataset
+df <- data.frame(
+  type = c("low income", "near", "deep", "poverty"),
+  before = c(41.5, 28.3, 4.8, 13.9),
+  current = c(41.3, 27.7, 4.3, 12.9),
+  simulation = c(41.1, 27.3, 4.2, 12.3)
+)
+
+write_csv(df, "cpsp_simulation_data.csv")
+print(df)
+```
+
+### Dataset 2: Demographic information
+```{r}
+all_groups_data <- tibble(
+  Category = c(
+    rep("Age", 3), rep("Race", 4), rep("Education", 3), 
+    rep("Density", 2), rep("Gender", 2), rep("Family Type", 2)
+  ),
+  Group = c(
+    "Children (<18)", "Working Age (18-64)", "Seniors (65+)",
+    "Black", "Latino", "Other", "White",
+    "Not enrolled", "High school", "College",
+    "Rural/Non-Metro", "Metro Area",
+    "Male", "Female",
+    "Family no kids", "Family w/ kids"
+  ),
+  Current_Rate = c(13.6, 12.2, 14.0, 18.4, 20.8, 13.5, 8.8, 12.7, 13.2, 16.3, 11.9, 13.0, 12.4, 13.3, 13.7, 10.8),
+  Sim_Rate = c(13.3, 12.1, 13.9, 18.2, 20.6, 13.3, 8.7, 12.5, 13.1, 16.2, 11.7, 12.9, 12.3, 13.1, 13.6, 10.6)
+)
+
+write_csv(all_groups_data, "demographic_data.csv")
+print(all_groups_data)
+```
+
+
+
+

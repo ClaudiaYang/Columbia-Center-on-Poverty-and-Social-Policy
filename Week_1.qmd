@@ -1,0 +1,120 @@
+# Week 1
+
+## Objectives
+Sketch a few early ideas for how the data might be visualized.
+
+## Current Visualization
+```{r show-original-graph, echo=FALSE, out.width="80%", fig.align="center"}
+knitr::include_graphics("original_graph.png")
+```
+
+This is the visualization provided by the simulation tool currently. The visualization shows a decreasing trend in these four poverty measurement metrics after the policy simulation, but do not reflect how much is decreased and which one decreased most. Since we are trying to understand the impact of the policy simulation, I decided to try some different ways to visualize the impact of the policy simulation to enhance the clarity and storytelling capacity. 
+
+## Visual 1: Slope Chart
+```{r}
+library(readr)
+library(dplyr)
+library(tidyverse)
+df <- read_csv("cpsp_simulation_data.csv")
+
+# Pivot longer
+plot_data <- df |>
+  pivot_longer(
+    cols = c("before", "current", "simulation"),
+    names_to = "indicator",
+    values_to = "value"
+  ) |>
+  mutate(
+    indicator = factor(indicator, levels = c("before", "current", "simulation")),
+    type = factor(type, levels = c("low income", "near", "poverty", "deep"))
+  )
+
+ggplot(plot_data, aes(x = indicator, y = value, group = type, color = type)) +
+  geom_line(linewidth = 1.6) +
+  geom_point(size = 4) +
+  labs(
+    title = "Change in Poverty Measures",
+    x = "",
+    y = "Rate (%)",
+    color = "Measure"
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(
+    plot.title = element_text(size = 20, face = "bold"),
+    legend.position = "bottom"
+  )
+
+```
+I first implemented a slope chart to simultaneously compare trends across all four poverty metrics. While this format effectively displays the hierarchy between groups, it is ineffective for assessing policy impact. Because the rate reductions are too small to generate visible slopes on this shared axis.The slopes appear nearly flat, which makes it hard for readers to see the magnitude of change and making it impossible to identify which metric improved the most.
+
+## Visual 2: Bar Chart
+```{r}
+df_diff <- df |>
+  mutate(diff = simulation - current)
+
+# 2. Plot the difference
+ggplot(df_diff, aes(x = reorder(type, diff), y = diff, fill = type)) +
+  geom_col(width = 0.55) +
+  geom_hline(yintercept = 0, color = "black") +
+  
+  # --- Value labels ---
+  geom_text(
+    aes(label = sprintf("%.2f", diff)),
+    # Dynamic vjust: If diff is positive, put text above bar; if negative, below.
+    vjust = ifelse(df_diff$diff >= 0, -0.5, 1.5), 
+    size = 5
+  ) +
+  
+  # Add extra space at top/bottom of y-axis so labels don't get cut off
+  scale_y_continuous(expand = expansion(mult = c(0.2, 0.2))) +
+  
+  labs(
+    title = "Change in Poverty Rates (Simulation – Current)",
+    y = "Change (percentage points)",
+    x = ""
+  ) +
+  
+  theme_minimal(base_size = 16) +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 20, hjust = 1)
+  )
+
+```
+To resolve the scaling issues of the slope chart, I changed to a divergence bar chart that plots the net change calculated by (Simulation - Current). By removing the baseline poverty rates, this visualization isolates the policy's impact, clearly distinguishing that the Poverty metric experiences the largest reduction, followed by Near Poverty. Deep Poverty on the other hand, has the lowest reduction. 
+
+
+## Visual 3: Lollipop Chart
+```{r}
+df_lollipop <- df |> 
+  mutate(diff = simulation - current)
+
+ggplot(df_lollipop, aes(x = reorder(type, diff), y = diff, color = type)) +
+  geom_segment(
+    aes(x = type, xend = type, y = 0, yend = diff),
+    linewidth = 1.1
+  ) +
+  geom_point(size = 6) +
+  geom_hline(yintercept = 0, color = "black") +
+  coord_flip() +
+  labs(
+    title = "Change in Poverty Rates (Simulation - Current)",
+    y = "Change (percentage points)",
+    x = ""
+  ) +
+  geom_text(
+    aes(label = sprintf("%.2f", diff)),
+    hjust = ifelse(df_lollipop$diff > 0, -0.4, 1.4),
+    size = 4
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(legend.position = "none")
+
+
+```
+I also tried the lollipop chart to address the scaling limitation of the slope chart. It performs the same calculation as the bar chart above, but just presents in a different form. This visualization also clearly quantifies the policy's impact and reveals the hierarchy of effectiveness. 
+
+
+## Supervisor Feedback and Next Steps:
+After discussing this week's work with the supervisor from CPSP, we agreed that the slope chart was ineffective, while the change-only charts lost the context of the total population. To address this, the supervisor suggested that the next step should be aggregating these metrics together in one chart. She proposed the waterfall chart or a stacked bar chart, to show the holistic view of the policy's efficacy. The goal for next week is to ensure the visualization captures the context of the reduction, allowing viewers to instantly grasp both the magnitude of the change and the remaining challenge.
+
