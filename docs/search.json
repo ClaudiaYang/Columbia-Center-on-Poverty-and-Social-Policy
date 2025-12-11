@@ -368,5 +368,19 @@
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Week 2</span>"
     ]
+  },
+  {
+    "objectID": "conclusion.html",
+    "href": "conclusion.html",
+    "title": "6  Conclusion",
+    "section": "",
+    "text": "6.1 Takeaway & Limitation\nThroughout this four-week project with CPSP, I successfully transitioned from static reporting to dynamic, narrative-driven visualization. I moved from ineffective slope charts to Waterfall and Stacked Difference models, and proved that preserving baseline context is essential for interpreting magnitude. By isolating the reduction as a distinct visual element, I transformed subtle percentage-point shifts into tangible evidence of policy success. Additionally, the demographic ranking prototype established a scalable framework for equity analysis, proving that even with limited datasets, we can move from disjointed tables to a unified ranking system that instantly identifies the primary beneficiaries of legislative change.\nOne limitation is that this analysis currently relies on microdataset and mock dataset created by myself to prototype the visualization logic. While this establishes a working framework, the production-level CPSP database likely contains higher dimensionality and structural complexity. Consequently, the code will require validation and potential refactoring to accommodate the full scale of the real data.\nAnother limitation is that the current visualizations effectively capture static comparisons of the poverty metrics. However, they do not capture the dynamics of change. The next phase of development should introduce alluvial diagrams to tell the flow story, which not just visualizes the net reduction in poverty, but the specific pathways families take to exit it. This narrative depth is critical for helping policymakers iterate on and improve simulation parameters."
+  },
+  {
+    "objectID": "conclusion.html#future-directions",
+    "href": "conclusion.html#future-directions",
+    "title": "6  Conclusion",
+    "section": "6.2 Future directions",
+    "text": "6.2 Future directions\nTo address the limitation of purely categorical analysis，which tracks status but not depth, the next phase will incorporate a poverty gap analysis suggested by the supervisor. This metric measures the mean distance below the poverty threshold, offering a continuous variable that captures nuanced movements, such as a family getting closer to the poverty line even if they haven’t yet crossed it. This will provide a more sensitive measure of policy efficacy than headcount ratios alone.\nI would also like to transition fro synthetic prototypes to the full database, the goal is to refactor our existing code to run on the full live database.This could potentially answer the interactive effect of demographic categories, enable me to create the alluvial diagram, and maybe discover some new information that could be visualized for storytelling purposes.\nWe will restructure the storyboard to be fully reproducible. Instead of hard-coded text in the current version, we will develop logic that dynamically generates insights (e.g., ‘This policy performed 5% better than the [Benchmark]’), ensuring the narrative adapts automatically to new data for every future simulation."
   }
 ]
