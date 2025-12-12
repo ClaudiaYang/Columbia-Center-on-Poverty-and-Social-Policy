@@ -14,4 +14,8 @@ I would also like to transition fro synthetic prototypes to the full database, t
 
 We will restructure the storyboard to be fully reproducible. Instead of hard-coded text in the current version, we will develop logic that dynamically generates insights (e.g., 'This policy performed 5% better than the [Benchmark]'), ensuring the narrative adapts automatically to new data for every future simulation.
 
+```{r}
+
+```
+
 
