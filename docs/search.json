@@ -10,46 +10,6 @@
     ]
   },
   {
-    "objectID": "data.html",
-    "href": "data.html",
-    "title": "2  Data",
-    "section": "",
-    "text": "2.1 Description",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data</span>"
-    ]
-  },
-  {
-    "objectID": "data.html#missing-value-analysis",
-    "href": "data.html#missing-value-analysis",
-    "title": "2  Data",
-    "section": "2.2 Missing value analysis",
-    "text": "2.2 Missing value analysis",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data</span>"
-    ]
-  },
-  {
-    "objectID": "Week_1.html",
-    "href": "Week_1.html",
-    "title": "2  Week 1",
-    "section": "",
-    "text": "2.1 Objectives\nSketch a few early ideas for how the data might be visualized.",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
-    ]
-  },
-  {
-    "objectID": "Week_1.html#missing-value-analysis",
-    "href": "Week_1.html#missing-value-analysis",
-    "title": "2  Week 1",
-    "section": "2.2 Missing value analysis",
-    "text": "2.2 Missing value analysis\nI am analyzing",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
-    ]
-  },
-  {
     "objectID": "index.html#introduction",
     "href": "index.html#introduction",
     "title": "Columbia Center on Poverty and Social Policy",
@@ -70,11 +30,21 @@
     ]
   },
   {
-    "objectID": "Week_1.html#sketch-concepts",
-    "href": "Week_1.html#sketch-concepts",
+    "objectID": "Week_1.html",
+    "href": "Week_1.html",
     "title": "2  Week 1",
-    "section": "2.2 Sketch Concepts",
-    "text": "2.2 Sketch Concepts\n\n\n\n\n\n\n\n\n\nThis is the visualization the simulation currently provide. The visualization shows a decreasing trend in these four poverty measurement metrics, but do not reflect how much is decreased and which one decreased most. Since we are trying to understand the impact of the policy simulation, I decided to try some different ways to visualize the impact of the policy simulation to enhance the clarity and storytelling capacity.\n\n\nCode\nlibrary(readr)\nlibrary(dplyr)\nlibrary(tidyverse)\ndf &lt;- read_csv(\"cpsp_simulation_data.csv\")\n\n\n\n\nCode\n# Pivot longer\nplot_data &lt;- df |&gt;\n  pivot_longer(\n    cols = c(\"before\", \"current\", \"simulation\"),\n    names_to = \"indicator\",\n    values_to = \"value\"\n  ) |&gt;\n  mutate(\n    indicator = factor(indicator, levels = c(\"before\", \"current\", \"simulation\")),\n    type = factor(type, levels = c(\"low income\", \"near\", \"poverty\", \"deep\"))\n  )\n\n\n\n\nCode\nggplot(plot_data, aes(x = indicator, y = value, group = type, color = type)) +\n  geom_line(linewidth = 1.6) +\n  geom_point(size = 4) +\n  labs(\n    title = \"Change in Poverty Measures\",\n    x = \"\",\n    y = \"Rate (%)\",\n    color = \"Measure\"\n  ) +\n  theme_minimal(base_size = 16) +\n  theme(\n    plot.title = element_text(size = 20, face = \"bold\"),\n    legend.position = \"bottom\"\n  )",
+    "section": "",
+    "text": "2.1 Objectives\nSketch a few early ideas for how the data might be visualized.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
+    ]
+  },
+  {
+    "objectID": "Week_1.html#current-visualization",
+    "href": "Week_1.html#current-visualization",
+    "title": "2  Week 1",
+    "section": "2.2 Current Visualization",
+    "text": "2.2 Current Visualization\n\n\n\n\n\n\n\n\n\nThis is the visualization provided by the simulation tool currently. The visualization shows a decreasing trend in these four poverty measurement metrics after the policy simulation, but do not reflect how much is decreased and which one decreased most. Since we are trying to understand the impact of the policy simulation, I decided to try some different ways to visualize the impact of the policy simulation to enhance the clarity and storytelling capacity.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
@@ -85,26 +55,6 @@
     "title": "2  Week 1",
     "section": "2.3 Visual 1: Slope Chart",
     "text": "2.3 Visual 1: Slope Chart\n\n\nCode\nlibrary(readr)\nlibrary(dplyr)\nlibrary(tidyverse)\ndf &lt;- read_csv(\"cpsp_simulation_data.csv\")\n\n# Pivot longer\nplot_data &lt;- df |&gt;\n  pivot_longer(\n    cols = c(\"before\", \"current\", \"simulation\"),\n    names_to = \"indicator\",\n    values_to = \"value\"\n  ) |&gt;\n  mutate(\n    indicator = factor(indicator, levels = c(\"before\", \"current\", \"simulation\")),\n    type = factor(type, levels = c(\"low income\", \"near\", \"poverty\", \"deep\"))\n  )\n\nggplot(plot_data, aes(x = indicator, y = value, group = type, color = type)) +\n  geom_line(linewidth = 1.6) +\n  geom_point(size = 4) +\n  labs(\n    title = \"Change in Poverty Measures\",\n    x = \"\",\n    y = \"Rate (%)\",\n    color = \"Measure\"\n  ) +\n  theme_minimal(base_size = 16) +\n  theme(\n    plot.title = element_text(size = 20, face = \"bold\"),\n    legend.position = \"bottom\"\n  )\n\n\n\n\n\n\n\n\n\nI first implemented a slope chart to simultaneously compare trends across all four poverty metrics. While this format effectively displays the hierarchy between groups, it is ineffective for assessing policy impact. Because the rate reductions are too small to generate visible slopes on this shared axis.The slopes appear nearly flat, which makes it hard for readers to see the magnitude of change and making it impossible to identify which metric improved the most.",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
-    ]
-  },
-  {
-    "objectID": "Week_1.html#visual-2",
-    "href": "Week_1.html#visual-2",
-    "title": "2  Week 1",
-    "section": "2.3 Visual 2:",
-    "text": "2.3 Visual 2:\n\n\nCode\ndf_diff &lt;- df |&gt;\n  mutate(diff = simulation - current)\n\n# 2. Plot the difference\nggplot(df_diff, aes(x = reorder(type, diff), y = diff, fill = type)) +\n  geom_col(width = 0.55) +\n  geom_hline(yintercept = 0, color = \"black\") +\n  \n  # --- Value labels ---\n  geom_text(\n    aes(label = sprintf(\"%.2f\", diff)),\n    # Dynamic vjust: If diff is positive, put text above bar; if negative, below.\n    vjust = ifelse(df_diff$diff &gt;= 0, -0.5, 1.5), \n    size = 5\n  ) +\n  \n  # Add extra space at top/bottom of y-axis so labels don't get cut off\n  scale_y_continuous(expand = expansion(mult = c(0.2, 0.2))) +\n  \n  labs(\n    title = \"Change in Poverty Rates (Simulation – Current)\",\n    y = \"Change (percentage points)\",\n    x = \"\"\n  ) +\n  \n  theme_minimal(base_size = 16) +\n  theme(\n    legend.position = \"none\",\n    axis.text.x = element_text(angle = 20, hjust = 1)\n  )",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
-    ]
-  },
-  {
-    "objectID": "Week_1.html#visual-3",
-    "href": "Week_1.html#visual-3",
-    "title": "2  Week 1",
-    "section": "2.4 Visual 3",
-    "text": "2.4 Visual 3\n\n\nCode\n# 1. Prepare data\n# We calculate the difference directly using the base pipe\ndf_lollipop &lt;- df |&gt; \n  mutate(diff = simulation - current)\n\n# 2. Plot\nggplot(df_lollipop, aes(x = reorder(type, diff), y = diff, color = type)) +\n  # Draw the stems\n  geom_segment(\n    aes(x = type, xend = type, y = 0, yend = diff),\n    linewidth = 1.1\n  ) +\n  # Draw the points (lollipop heads)\n  geom_point(size = 6) +\n  # Add the baseline at 0\n  geom_hline(yintercept = 0, color = \"black\") +\n  # Flip coordinates to make it horizontal\n  coord_flip() +\n  labs(\n    title = \"Change in Poverty Rates (Simulation - Current)\",\n    y = \"Change (percentage points)\",\n    x = \"\"\n  ) +\n  # Add labels\n  geom_text(\n    aes(label = sprintf(\"%.2f\", diff)),\n    # Dynamic adjustment: if diff is positive, place text to the right; if negative, to the left\n    hjust = ifelse(df_lollipop$diff &gt; 0, -0.4, 1.4),\n    size = 4\n  ) +\n  # I adjusted base_size to 16 to match your previous charts (6 is very small)\n  theme_minimal(base_size = 16) +\n  theme(legend.position = \"none\")",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
@@ -130,11 +80,11 @@
     ]
   },
   {
-    "objectID": "Week_1.html#supervisor-feedback-and-nest-steps",
-    "href": "Week_1.html#supervisor-feedback-and-nest-steps",
+    "objectID": "Week_1.html#supervisor-feedback-and-next-steps",
+    "href": "Week_1.html#supervisor-feedback-and-next-steps",
     "title": "2  Week 1",
-    "section": "2.5 Supervisor Feedback and Nest Steps:",
-    "text": "2.5 Supervisor Feedback and Nest Steps:\nAfter discussing this week’s work with the supervisor from CPSP, we agreed that the slope chart was ineffective, while the change-only charts lost the context of the total population. To address this, the supervisor suggested that the next step should be aggregating these metrics together in one chart. She proposed the waterfall chart or a stacked bar chart, to show the holistic view of the policy’s efficacy. The goal for next week is to ensure the visualization captures the context of the reduction, allowing viewers to instantly grasp both the magnitude of the change and the remaining challenge.",
+    "section": "2.6 Supervisor Feedback and Next Steps:",
+    "text": "2.6 Supervisor Feedback and Next Steps:\nAfter discussing this week’s work with the supervisor from CPSP, we agreed that the slope chart was ineffective, while the change-only charts lost the context of the total population. To address this, the supervisor suggested that the next step should be aggregating these metrics together in one chart. She proposed the waterfall chart or a stacked bar chart, to show the holistic view of the policy’s efficacy. The goal for next week is to ensure the visualization captures the context of the reduction, allowing viewers to instantly grasp both the magnitude of the change and the remaining challenge.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
     ]
@@ -160,53 +110,43 @@
     ]
   },
   {
-    "objectID": "Week_2.html#visual-2-waterfall-like-chart",
-    "href": "Week_2.html#visual-2-waterfall-like-chart",
+    "objectID": "Week_2.html#visual-2-side-by-side-grouped-bar-chart",
+    "href": "Week_2.html#visual-2-side-by-side-grouped-bar-chart",
     "title": "3  Week 2",
-    "section": "3.3 Visual 2: Waterfall-like Chart",
-    "text": "3.3 Visual 2: Waterfall-like Chart\n\n\nCode\n# 1. Prepare Data using Base Pipe |&gt;\n# We need to structure it so 'Simulation' is the base, and 'Reduction' sits on top.\nplot_data &lt;- df2 |&gt;\n  pivot_wider(names_from = name, values_from = value) |&gt;\n  mutate(\n    # Calculate the reduction (this will be the \"floating\" red part)\n    Reduction = before - simulation,\n    \n    # We'll use 'Simulation' as the base bar\n    Base = simulation,\n    \n    # Create labels\n    label_before = as.character(round(before, 1)),\n    label_change = sprintf(\"-%0.1f\", Reduction), # e.g. \"-0.6\"\n    label_sim = as.character(round(simulation, 1))\n  ) |&gt;\n  # Pivot back to long format for stacking: 'Base' (Sim) and 'Reduction'\n  pivot_longer(cols = c(Base, Reduction), names_to = \"component\", values_to = \"value\") |&gt;\n  # Set factor levels so 'Reduction' is always on TOP of 'Base'\n  mutate(component = factor(component, levels = c(\"Reduction\", \"Base\")))\n\n# 2. Generate the Combined Waterfall\nggplot(plot_data, aes(x = reorder(type, -value), y = value, fill = component)) +\n  # Create the Stacked Bar (Base + Reduction = Total Before)\n  geom_col(width = 0.6) +\n  \n  # A. Label the \"Before\" value (Total Height)\n  # We sum the values per type to get the Y position for the top label\n  geom_text(aes(label = label_before, group = type), \n            stat = \"summary\", fun = sum, vjust = -0.5, \n            fontface = \"bold\", color = \"grey30\", size = 4) +\n  \n  # B. Label the \"Change\" (Inside the Red block)\n  geom_text(data = subset(plot_data, component == \"Reduction\"),\n            aes(label = label_change),\n            position = position_stack(vjust = 0.5),\n            color = \"white\", fontface = \"bold\", size = 3.5) +\n  \n  # C. Label the \"After/Sim\" (Inside the Blue block)\n  geom_text(data = subset(plot_data, component == \"Base\"),\n            aes(label = label_sim),\n            position = position_stack(vjust = 0.5),\n            color = \"white\", fontface = \"bold\", size = 3.5) +\n  \n  # Scales and Styling\n  scale_y_continuous(expand = expansion(mult = c(0, 0.1)), name = \"Poverty Rate (%)\") +\n  scale_fill_manual(values = c(\"Base\" = \"#56B4E9\",     # Blue for Result\n                               \"Reduction\" = \"#D55E00\"), # Red for Drop\n                    labels = c(\"After Simulation\", \"Reduction Amount\")) +\n  \n  labs(title = \"Combined Policy Impact Analysis\",\n       subtitle = \"Top of bar = Before Policy | Red = Reduction | Blue = After Simulation\",\n       x = NULL, fill = NULL) +\n  \n  theme_minimal() +\n  theme(\n    legend.position = \"top\",\n    panel.grid.major.x = element_blank(),\n    axis.text.x = element_text(size = 11, face = \"bold\")\n  )\n\n\n\n\n\n\n\n\n\nI chose not to do the exact waterfall chart but another visualization applying waterfall chart’s logic because we need to facet the for the original waterfall chart for different metrics, and four graphs are more difficult to interpret than one graph. Instead, I created this graph using the waterfall logic, to visualize the subtraction from before policy to after policy simulation.\nThis visualization reveals that while Low Income is the largest group, the policy is actually most efficient for the ‘Poverty’ metric, achieving a 1.6 percentage point reduction. This key insight is that the policy targets the middle tier more effectively than the extremes.\nI think this visualization shows the delta more effectively than the stacked bar chart because it has the same baseline and every metric starts at zero. However, it fails to capture the total population context again.",
+    "section": "3.3 Visual 2: Side-by-side grouped bar chart",
+    "text": "3.3 Visual 2: Side-by-side grouped bar chart\n\n\nCode\nggplot(df2, aes(x = name, y = value, fill = type)) +\n  geom_col(position = \"dodge\") +\n  labs(\n    title = \"Poverty Measures by Scenario (Side-by-Side)\",\n    x = \"Scenario\",\n    y = \"Percentage\",\n    fill = \"Category\"\n  )\n\n\n\n\n\n\n\n\n\nWhile the previous stacked bar chart successfully communicated the nested nature of poverty strata, it obscured the individual scale of the smaller categories. I introduced this side-by-side view to break that dependency. By unstacking the metrics, we can now clearly see the independent magnitude of each group. The Near Poverty population is nearly double that of the standard Poverty group. This layout ensures that stakeholders can evaluate the trajectory of each metric on its own terms, without the visual bias of being stacked on top of a larger base.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Week 2</span>"
     ]
   },
   {
-    "objectID": "Week_2.html#visual-4-cleveland-dot-plot",
-    "href": "Week_2.html#visual-4-cleveland-dot-plot",
+    "objectID": "Week_2.html#visual-3-waterfall-like-chart",
+    "href": "Week_2.html#visual-3-waterfall-like-chart",
     "title": "3  Week 2",
-    "section": "4.1 Visual 4: Cleveland Dot Plot",
-    "text": "4.1 Visual 4: Cleveland Dot Plot\n\n\nCode\nplot_data &lt;- demo_data |&gt; \n  mutate(Reduction = Current_Rate - Sim_Rate) |&gt; \n  arrange(desc(Reduction)) |&gt; \n  head(10)\n\nggplot(plot_data, aes(x = Reduction, y = reorder(Group, Reduction))) +\n  geom_point(aes(color = Category), size = 6) +\n  geom_text(aes(label = sprintf(\"%.2f\", Reduction)), \n            color = \"white\", size = 2.5, fontface = \"bold\") +\n  scale_color_brewer(palette = \"Set1\") +\n  theme_minimal(base_size = 14) +\n  labs(\n    title = \"Who Benefits Most? (Top 10 Groups)\",\n    subtitle = \"Reduction in Poverty Rate (Percentage Points)\",\n    x = \"Points Reduced\",\n    y = NULL,\n    color = \"Demographic\"\n  ) +\n  theme(\n    panel.grid.major.y = element_line(color = \"grey90\", linetype = \"dashed\"),\n    panel.grid.major.x = element_blank(),\n    panel.grid.minor = element_blank(),\n    legend.position = \"bottom\",\n    plot.title = element_text(face = \"bold\")\n  )\n\n\n\n\n\n\n\n\n\nIn the current simulation tool, we only have numerous isolated tables for the impact of policy simulation on demographic categories. So I used this Cleveland Dot Plot to synthesize the absolute rate reduction in poverty rate across all demographic sub-categories into a single view, which allows direct cross-group comparison. In this plot, we can see that the children are the primary beneficiaries of this policy. This information enables policymakers to instantly verify whetehr the intervention is reaching its target population more effectively than other demographic groups.",
+    "section": "3.4 Visual 3: Waterfall-like Chart",
+    "text": "3.4 Visual 3: Waterfall-like Chart\n\n\nCode\n# 1. Prepare Data using Base Pipe |&gt;\n# We need to structure it so 'Simulation' is the base, and 'Reduction' sits on top.\nplot_data &lt;- df2 |&gt;\n  pivot_wider(names_from = name, values_from = value) |&gt;\n  mutate(\n    # Calculate the reduction (this will be the \"floating\" red part)\n    Reduction = before - simulation,\n    \n    # We'll use 'Simulation' as the base bar\n    Base = simulation,\n    \n    # Create labels\n    label_before = as.character(round(before, 1)),\n    label_change = sprintf(\"-%0.1f\", Reduction), # e.g. \"-0.6\"\n    label_sim = as.character(round(simulation, 1))\n  ) |&gt;\n  # Pivot back to long format for stacking: 'Base' (Sim) and 'Reduction'\n  pivot_longer(cols = c(Base, Reduction), names_to = \"component\", values_to = \"value\") |&gt;\n  # Set factor levels so 'Reduction' is always on TOP of 'Base'\n  mutate(component = factor(component, levels = c(\"Reduction\", \"Base\")))\n\n# 2. Generate the Combined Waterfall\nggplot(plot_data, aes(x = reorder(type, -value), y = value, fill = component)) +\n  # Create the Stacked Bar (Base + Reduction = Total Before)\n  geom_col(width = 0.6) +\n  \n  # A. Label the \"Before\" value (Total Height)\n  # We sum the values per type to get the Y position for the top label\n  geom_text(aes(label = label_before, group = type), \n            stat = \"summary\", fun = sum, vjust = -0.5, \n            fontface = \"bold\", color = \"grey30\", size = 4) +\n  \n  # B. Label the \"Change\" (Inside the Red block)\n  geom_text(data = subset(plot_data, component == \"Reduction\"),\n            aes(label = label_change),\n            position = position_stack(vjust = 0.5),\n            color = \"white\", fontface = \"bold\", size = 3.5) +\n  \n  # C. Label the \"After/Sim\" (Inside the Blue block)\n  geom_text(data = subset(plot_data, component == \"Base\"),\n            aes(label = label_sim),\n            position = position_stack(vjust = 0.5),\n            color = \"white\", fontface = \"bold\", size = 3.5) +\n  \n  # Scales and Styling\n  scale_y_continuous(expand = expansion(mult = c(0, 0.1)), name = \"Poverty Rate (%)\") +\n  scale_fill_manual(values = c(\"Base\" = \"#56B4E9\",     # Blue for Result\n                               \"Reduction\" = \"#D55E00\"), # Red for Drop\n                    labels = c(\"Reduction Amount\", \"After Simulation\")) +\n  \n  labs(title = \"Combined Policy Impact Analysis\",\n       subtitle = \"Top of bar = Before Policy | Red = Reduction | Blue = After Simulation\",\n       x = NULL, fill = NULL) +\n  \n  theme_minimal() +\n  theme(\n    legend.position = \"top\",\n    panel.grid.major.x = element_blank(),\n    axis.text.x = element_text(size = 11, face = \"bold\")\n  )\n\n\n\n\n\n\n\n\n\nI chose not to do the exact waterfall chart but another visualization applying waterfall chart’s logic because we need to facet the for the original waterfall chart for different metrics, and four graphs are more difficult to interpret than one graph. Instead, I created this graph using the waterfall logic, to visualize the subtraction from before policy to after policy simulation.\nThis visualization reveals that while Low Income is the largest group, the policy is actually most efficient for the Poverty metric, achieving a 1.6 percentage point reduction. This key insight is that the policy targets the middle tier more effectively than the extremes.\nI think this visualization shows the delta more effectively than the stacked bar chart because it has the same baseline and every metric starts at zero. However, it fails to capture the total population context again.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Week 2</span>"
     ]
   },
   {
-    "objectID": "Week_2.html#supervisor-feedback-and-nest-steps",
-    "href": "Week_2.html#supervisor-feedback-and-nest-steps",
+    "objectID": "Week_2.html#visual-5-cleveland-dot-plot",
+    "href": "Week_2.html#visual-5-cleveland-dot-plot",
     "title": "3  Week 2",
-    "section": "4.2 Supervisor Feedback and Nest Steps:",
-    "text": "4.2 Supervisor Feedback and Nest Steps:\nThe supervisor preferred the stacked bar chart over the waterfall-like plot because she wants to emphasize on the population context more. However, to ensure the specific impact of the policy is not lost within the stack, the next step should explicitly label and highlight the metric experiencing the largest reduction, drawing the viewer’s attention to the primary driver of change.\nRegarding the demographic analysis (Visual 3), the supervisor noted that while the current Cleveland Dot Plot effectively ranks broad categories, it fails to capture interactive effects.By that, she means that we can tell children are benefiting the most, but we cannot determine whether it is rural children or children in the metro area.Future visualizations will need to disaggregate these factors to reveal these deeper nuances.",
+    "section": "4.1 Visual 5: Cleveland Dot Plot",
+    "text": "4.1 Visual 5: Cleveland Dot Plot\n\n\nCode\nplot_data &lt;- demo_data |&gt; \n  mutate(Reduction = Current_Rate - Sim_Rate) |&gt; \n  arrange(desc(Reduction)) |&gt; \n  head(10)\n\nggplot(plot_data, aes(x = Reduction, y = reorder(Group, Reduction))) +\n  geom_point(aes(color = Category), size = 6) +\n  geom_text(aes(label = sprintf(\"%.2f\", Reduction)), \n            color = \"white\", size = 2.5, fontface = \"bold\") +\n  scale_color_brewer(palette = \"Set1\") +\n  theme_minimal(base_size = 14) +\n  labs(\n    title = \"Who Benefits Most? (Top 10 Groups)\",\n    subtitle = \"Reduction in Poverty Rate (Percentage Points)\",\n    x = \"Points Reduced\",\n    y = NULL,\n    color = \"Demographic\"\n  ) +\n  theme(\n    panel.grid.major.y = element_line(color = \"grey90\", linetype = \"dashed\"),\n    panel.grid.major.x = element_blank(),\n    panel.grid.minor = element_blank(),\n    legend.position = \"bottom\",\n    plot.title = element_text(face = \"bold\")\n  )\n\n\n\n\n\n\n\n\n\nIn the current simulation tool, we only have numerous isolated tables for the impact of policy simulation on demographic categories. So I used this Cleveland Dot Plot to synthesize the absolute rate reduction in poverty rate across all demographic sub-categories into a single view, which allows direct cross-group comparison. In this plot, we can see that the children are the primary beneficiaries of this policy. This information enables policymakers to instantly verify whetehr the intervention is reaching its target population more effectively than other demographic groups.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Week 2</span>"
     ]
   },
   {
-    "objectID": "Week_1.html#current-visualization",
-    "href": "Week_1.html#current-visualization",
-    "title": "2  Week 1",
-    "section": "2.2 Current Visualization",
-    "text": "2.2 Current Visualization\n\n\n\n\n\n\n\n\n\nThis is the visualization provided by the simulation tool currently. The visualization shows a decreasing trend in these four poverty measurement metrics after the policy simulation, but do not reflect how much is decreased and which one decreased most. Since we are trying to understand the impact of the policy simulation, I decided to try some different ways to visualize the impact of the policy simulation to enhance the clarity and storytelling capacity.",
+    "objectID": "Week_2.html#supervisor-feedback-and-next-steps",
+    "href": "Week_2.html#supervisor-feedback-and-next-steps",
+    "title": "3  Week 2",
+    "section": "4.2 Supervisor Feedback and Next Steps:",
+    "text": "4.2 Supervisor Feedback and Next Steps:\nThe supervisor preferred the stacked bar chart over the waterfall-like plot because she wants to emphasize on the population context more. However, to ensure the specific impact of the policy is not lost within the stack, the next step should explicitly label and highlight the metric experiencing the largest reduction, drawing the viewer’s attention to the primary driver of change.\nRegarding the demographic analysis (Visual 4), the supervisor noted that while the current Cleveland Dot Plot effectively ranks broad categories, it fails to capture interactive effects.By that, she means that we can tell children are benefiting the most, but we cannot determine whether it is rural children or children in the metro area.Future visualizations will need to disaggregate these factors to reveal these deeper nuances.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
-    ]
-  },
-  {
-    "objectID": "Week_1.html#supervisor-feedback-and-next-steps",
-    "href": "Week_1.html#supervisor-feedback-and-next-steps",
-    "title": "2  Week 1",
-    "section": "2.6 Supervisor Feedback and Next Steps:",
-    "text": "2.6 Supervisor Feedback and Next Steps:\nAfter discussing this week’s work with the supervisor from CPSP, we agreed that the slope chart was ineffective, while the change-only charts lost the context of the total population. To address this, the supervisor suggested that the next step should be aggregating these metrics together in one chart. She proposed the waterfall chart or a stacked bar chart, to show the holistic view of the policy’s efficacy. The goal for next week is to ensure the visualization captures the context of the reduction, allowing viewers to instantly grasp both the magnitude of the change and the remaining challenge.",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Week 1</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Week 2</span>"
     ]
   },
   {
@@ -260,16 +200,6 @@
     ]
   },
   {
-    "objectID": "Week_2.html#supervisor-feedback-and-next-steps",
-    "href": "Week_2.html#supervisor-feedback-and-next-steps",
-    "title": "3  Week 2",
-    "section": "4.2 Supervisor Feedback and Next Steps:",
-    "text": "4.2 Supervisor Feedback and Next Steps:\nThe supervisor preferred the stacked bar chart over the waterfall-like plot because she wants to emphasize on the population context more. However, to ensure the specific impact of the policy is not lost within the stack, the next step should explicitly label and highlight the metric experiencing the largest reduction, drawing the viewer’s attention to the primary driver of change.\nRegarding the demographic analysis (Visual 4), the supervisor noted that while the current Cleveland Dot Plot effectively ranks broad categories, it fails to capture interactive effects.By that, she means that we can tell children are benefiting the most, but we cannot determine whether it is rural children or children in the metro area.Future visualizations will need to disaggregate these factors to reveal these deeper nuances.",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Week 2</span>"
-    ]
-  },
-  {
     "objectID": "Week_4.html",
     "href": "Week_4.html",
     "title": "5  Week 4",
@@ -285,16 +215,6 @@
     "title": "5  Week 4",
     "section": "5.2 Visual 1: Aggregated effects on poverty metrics",
     "text": "5.2 Visual 1: Aggregated effects on poverty metrics\n\n\nCode\nlibrary(readr)\nlibrary(dplyr)\nlibrary(tidyverse)\nlibrary(plotly)\nlibrary(ggplot2)\ndf &lt;- read_csv(\"cpsp_simulation_data.csv\")\n\nplot_data &lt;- df |&gt; \n  pivot_longer(\n    cols = c(\"before\", \"current\", \"simulation\"),\n    names_to = \"indicator\",\n    values_to = \"value\"\n  ) |&gt; \n  mutate(\n    x_num = match(indicator, c(\"before\", \"current\", \"simulation\")),\n    \n  \n    type = factor(type, levels = c(\"low income\", \"near\", \"poverty\", \"deep\"))\n  ) |&gt; \n  arrange(type)\n\nggplot(plot_data, aes(x = x_num, y = value, fill = type)) +\n  geom_area(position = \"identity\", alpha = 0.9, linewidth = 0.5, color = \"white\") +\n  \n  scale_fill_manual(\n    values = c(\n      \"low income\" = \"#E0E0E0\", \n      \"near\"       = \"#4D4D4D\", \n      \"poverty\"    = \"#D95F02\", \n      \"deep\"       = \"#999999\"  \n    )\n  ) +\n  \n  scale_x_continuous(\n    breaks = 1:3,\n    labels = c(\"before\", \"current\", \"simulation\"),\n    expand = c(0, 0)\n  ) +\n  \n  scale_y_continuous(expand = c(0, 0)) +\n  \n  labs(\n    title = \"Impact of Simulation on Poverty\",\n    subtitle = \"Nested Areas: Showing absolute scale of each category\",\n    x = \"\",\n    y = \"Percentage\",\n    fill = \"Category\"\n  ) +\n  \n  theme_minimal(base_size = 16) +\n  theme(\n    plot.title = element_text(face = \"bold\"),\n    legend.position = \"right\",\n    panel.grid.major.x = element_blank(),\n    panel.grid.minor.x = element_blank()\n  )\n\n\n\n\n\n\n\n\n\nThis aggregate baseline chart responds to the supervisor feedback on Notion. This visualization establishes the big picture context, it maps the relative proportions of the four socioeconomic strata using the established focus color palette (Orange/Gray). While Low Income households make up the largest segment of the population, the policy is more effective at reducing standard Poverty. By familiarizing the audience with the hierarchy—where Low Income forms the massive base and Poverty is the highlighted target, this chart ensures audience understand the scale of the population before interpreting other visualizations.",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Week 4</span>"
-    ]
-  },
-  {
-    "objectID": "Week_4.html#visual-2-lolipop-chart-to-address-interactive-effect-in-demographic-group",
-    "href": "Week_4.html#visual-2-lolipop-chart-to-address-interactive-effect-in-demographic-group",
-    "title": "5  Week 4",
-    "section": "5.3 Visual 2: Lolipop Chart to address interactive effect in demographic group",
-    "text": "5.3 Visual 2: Lolipop Chart to address interactive effect in demographic group\n\n\nCode\n# Create Mock Raw Dataset (One row per person) \nset.seed(123) \nn_people &lt;- 1000\n\ndf_raw &lt;- tibble(\n  id = 1:n_people,\n  \n  age = sample(c(\"Children (&lt;18)\", \"Working Age\", \"Senior\"), n_people, replace = TRUE),\n  density = sample(c(\"Rural\", \"Urban\"), n_people, replace = TRUE),\n  race = sample(c(\"White\", \"Black\", \"Latino\", \"Other\"), n_people, replace = TRUE),\n  family = sample(c(\"Married\", \"Single Parent\"), n_people, replace = TRUE),\n  \n  is_poor_current = rbinom(n_people, 1, 0.20),\n  is_poor_sim     = rbinom(n_people, 1, 0.15) \n)\n\nchildren_analysis &lt;- df_raw |&gt;\n  filter(age == \"Children (&lt;18)\") |&gt;\n\n  pivot_longer(\n    cols = c(\"density\", \"race\", \"family\"),\n    names_to = \"category_name\",\n    values_to = \"group_name\"\n  ) |&gt;\n  \n  group_by(category_name, group_name) |&gt;\n  summarize(\n    current_rate = mean(is_poor_current),\n    sim_rate     = mean(is_poor_sim),\n    .groups = \"drop\"\n  ) |&gt;\n  \n  mutate(\n    reduction = (current_rate - sim_rate) * 100, \n    label = paste0(group_name, \" (\", tools::toTitleCase(category_name), \")\")\n  )\n\n\nggplot(children_analysis, aes(x = reduction, y = reorder(label, reduction))) +\n  geom_segment(aes(x = 0, xend = reduction, y = label, yend = label), color = \"gray60\") +\n  geom_point(size = 5, color = \"#D95F02\") +\n  \n  labs(\n    title = \"Interactive Effects: Which Children Benefit Most?\",\n    subtitle = \"Reduction in Poverty Rate by Demographic Sub-Group\",\n    x = \"Reduction (Percentage Points)\",\n    y = \"\"\n  ) +\n  geom_text(aes(label = sprintf(\"%.1f\", reduction)), vjust = -0.8, size = 3.5) +\n  theme_minimal(base_size = 14) +\n  theme(\n    panel.grid.major.y = element_blank(),\n    plot.title = element_text(face = \"bold\")\n  )",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Week 4</span>"
     ]
@@ -332,70 +252,6 @@
   {
     "objectID": "Conclusion.html#future-directions",
     "href": "Conclusion.html#future-directions",
-    "title": "6  Conclusion",
-    "section": "6.2 Future directions",
-    "text": "6.2 Future directions\nTo address the limitation of purely categorical analysis，which tracks status but not depth, the next phase will incorporate a poverty gap analysis suggested by the supervisor. This metric measures the mean distance below the poverty threshold, offering a continuous variable that captures nuanced movements, such as a family getting closer to the poverty line even if they haven’t yet crossed it. This will provide a more sensitive measure of policy efficacy than headcount ratios alone.\nI would also like to transition fro synthetic prototypes to the full database, the goal is to refactor our existing code to run on the full live database.This could potentially answer the interactive effect of demographic categories, enable me to create the alluvial diagram, and maybe discover some new information that could be visualized for storytelling purposes.\nWe will restructure the storyboard to be fully reproducible. Instead of hard-coded text in the current version, we will develop logic that dynamically generates insights (e.g., ‘This policy performed 5% better than the [Benchmark]’), ensuring the narrative adapts automatically to new data for every future simulation.",
-    "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Conclusion</span>"
-    ]
-  },
-  {
-    "objectID": "Week_2.html#visual-2-side-by-side-grouped-bar-chart",
-    "href": "Week_2.html#visual-2-side-by-side-grouped-bar-chart",
-    "title": "3  Week 2",
-    "section": "3.3 Visual 2: Side-by-side grouped bar chart",
-    "text": "3.3 Visual 2: Side-by-side grouped bar chart\n\n\nCode\nggplot(df2, aes(x = name, y = value, fill = type)) +\n  geom_col(position = \"dodge\") +\n  labs(\n    title = \"Poverty Measures by Scenario (Side-by-Side)\",\n    x = \"Scenario\",\n    y = \"Percentage\",\n    fill = \"Category\"\n  )\n\n\n\n\n\n\n\n\n\nWhile the previous stacked bar chart successfully communicated the nested nature of poverty strata, it obscured the individual scale of the smaller categories. I introduced this side-by-side view to break that dependency. By unstacking the metrics, we can now clearly see the independent magnitude of each group. The Near Poverty population is nearly double that of the standard Poverty group. This layout ensures that stakeholders can evaluate the trajectory of each metric on its own terms, without the visual bias of being stacked on top of a larger base.",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Week 2</span>"
-    ]
-  },
-  {
-    "objectID": "Week_2.html#visual-3-waterfall-like-chart",
-    "href": "Week_2.html#visual-3-waterfall-like-chart",
-    "title": "3  Week 2",
-    "section": "3.4 Visual 3: Waterfall-like Chart",
-    "text": "3.4 Visual 3: Waterfall-like Chart\n\n\nCode\n# 1. Prepare Data using Base Pipe |&gt;\n# We need to structure it so 'Simulation' is the base, and 'Reduction' sits on top.\nplot_data &lt;- df2 |&gt;\n  pivot_wider(names_from = name, values_from = value) |&gt;\n  mutate(\n    # Calculate the reduction (this will be the \"floating\" red part)\n    Reduction = before - simulation,\n    \n    # We'll use 'Simulation' as the base bar\n    Base = simulation,\n    \n    # Create labels\n    label_before = as.character(round(before, 1)),\n    label_change = sprintf(\"-%0.1f\", Reduction), # e.g. \"-0.6\"\n    label_sim = as.character(round(simulation, 1))\n  ) |&gt;\n  # Pivot back to long format for stacking: 'Base' (Sim) and 'Reduction'\n  pivot_longer(cols = c(Base, Reduction), names_to = \"component\", values_to = \"value\") |&gt;\n  # Set factor levels so 'Reduction' is always on TOP of 'Base'\n  mutate(component = factor(component, levels = c(\"Reduction\", \"Base\")))\n\n# 2. Generate the Combined Waterfall\nggplot(plot_data, aes(x = reorder(type, -value), y = value, fill = component)) +\n  # Create the Stacked Bar (Base + Reduction = Total Before)\n  geom_col(width = 0.6) +\n  \n  # A. Label the \"Before\" value (Total Height)\n  # We sum the values per type to get the Y position for the top label\n  geom_text(aes(label = label_before, group = type), \n            stat = \"summary\", fun = sum, vjust = -0.5, \n            fontface = \"bold\", color = \"grey30\", size = 4) +\n  \n  # B. Label the \"Change\" (Inside the Red block)\n  geom_text(data = subset(plot_data, component == \"Reduction\"),\n            aes(label = label_change),\n            position = position_stack(vjust = 0.5),\n            color = \"white\", fontface = \"bold\", size = 3.5) +\n  \n  # C. Label the \"After/Sim\" (Inside the Blue block)\n  geom_text(data = subset(plot_data, component == \"Base\"),\n            aes(label = label_sim),\n            position = position_stack(vjust = 0.5),\n            color = \"white\", fontface = \"bold\", size = 3.5) +\n  \n  # Scales and Styling\n  scale_y_continuous(expand = expansion(mult = c(0, 0.1)), name = \"Poverty Rate (%)\") +\n  scale_fill_manual(values = c(\"Base\" = \"#56B4E9\",     # Blue for Result\n                               \"Reduction\" = \"#D55E00\"), # Red for Drop\n                    labels = c(\"Reduction Amount\", \"After Simulation\")) +\n  \n  labs(title = \"Combined Policy Impact Analysis\",\n       subtitle = \"Top of bar = Before Policy | Red = Reduction | Blue = After Simulation\",\n       x = NULL, fill = NULL) +\n  \n  theme_minimal() +\n  theme(\n    legend.position = \"top\",\n    panel.grid.major.x = element_blank(),\n    axis.text.x = element_text(size = 11, face = \"bold\")\n  )\n\n\n\n\n\n\n\n\n\nI chose not to do the exact waterfall chart but another visualization applying waterfall chart’s logic because we need to facet the for the original waterfall chart for different metrics, and four graphs are more difficult to interpret than one graph. Instead, I created this graph using the waterfall logic, to visualize the subtraction from before policy to after policy simulation.\nThis visualization reveals that while Low Income is the largest group, the policy is actually most efficient for the Poverty metric, achieving a 1.6 percentage point reduction. This key insight is that the policy targets the middle tier more effectively than the extremes.\nI think this visualization shows the delta more effectively than the stacked bar chart because it has the same baseline and every metric starts at zero. However, it fails to capture the total population context again.",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Week 2</span>"
-    ]
-  },
-  {
-    "objectID": "Week_2.html#visual-5-cleveland-dot-plot",
-    "href": "Week_2.html#visual-5-cleveland-dot-plot",
-    "title": "3  Week 2",
-    "section": "4.1 Visual 5: Cleveland Dot Plot",
-    "text": "4.1 Visual 5: Cleveland Dot Plot\n\n\nCode\nplot_data &lt;- demo_data |&gt; \n  mutate(Reduction = Current_Rate - Sim_Rate) |&gt; \n  arrange(desc(Reduction)) |&gt; \n  head(10)\n\nggplot(plot_data, aes(x = Reduction, y = reorder(Group, Reduction))) +\n  geom_point(aes(color = Category), size = 6) +\n  geom_text(aes(label = sprintf(\"%.2f\", Reduction)), \n            color = \"white\", size = 2.5, fontface = \"bold\") +\n  scale_color_brewer(palette = \"Set1\") +\n  theme_minimal(base_size = 14) +\n  labs(\n    title = \"Who Benefits Most? (Top 10 Groups)\",\n    subtitle = \"Reduction in Poverty Rate (Percentage Points)\",\n    x = \"Points Reduced\",\n    y = NULL,\n    color = \"Demographic\"\n  ) +\n  theme(\n    panel.grid.major.y = element_line(color = \"grey90\", linetype = \"dashed\"),\n    panel.grid.major.x = element_blank(),\n    panel.grid.minor = element_blank(),\n    legend.position = \"bottom\",\n    plot.title = element_text(face = \"bold\")\n  )\n\n\n\n\n\n\n\n\n\nIn the current simulation tool, we only have numerous isolated tables for the impact of policy simulation on demographic categories. So I used this Cleveland Dot Plot to synthesize the absolute rate reduction in poverty rate across all demographic sub-categories into a single view, which allows direct cross-group comparison. In this plot, we can see that the children are the primary beneficiaries of this policy. This information enables policymakers to instantly verify whetehr the intervention is reaching its target population more effectively than other demographic groups.",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Week 2</span>"
-    ]
-  },
-  {
-    "objectID": "conclusion.html",
-    "href": "conclusion.html",
-    "title": "6  Conclusion",
-    "section": "",
-    "text": "6.1 Takeaway & Limitation\nThroughout this four-week project with CPSP, I successfully transitioned from static reporting to dynamic, narrative-driven visualization. I moved from ineffective slope charts to Waterfall and Stacked Difference models, and proved that preserving baseline context is essential for interpreting magnitude. By isolating the reduction as a distinct visual element, I transformed subtle percentage-point shifts into tangible evidence of policy success. Additionally, the demographic ranking prototype established a scalable framework for equity analysis, proving that even with limited datasets, we can move from disjointed tables to a unified ranking system that instantly identifies the primary beneficiaries of legislative change.\nOne limitation is that this analysis currently relies on microdataset and mock dataset created by myself to prototype the visualization logic. While this establishes a working framework, the production-level CPSP database likely contains higher dimensionality and structural complexity. Consequently, the code will require validation and potential refactoring to accommodate the full scale of the real data.\nAnother limitation is that the current visualizations effectively capture static comparisons of the poverty metrics. However, they do not capture the dynamics of change. The next phase of development should introduce alluvial diagrams to tell the flow story, which not just visualizes the net reduction in poverty, but the specific pathways families take to exit it. This narrative depth is critical for helping policymakers iterate on and improve simulation parameters."
-  },
-  {
-    "objectID": "conclusion.html#future-directions",
-    "href": "conclusion.html#future-directions",
-    "title": "6  Conclusion",
-    "section": "6.2 Future directions",
-    "text": "6.2 Future directions\nTo address the limitation of purely categorical analysis，which tracks status but not depth, the next phase will incorporate a poverty gap analysis suggested by the supervisor. This metric measures the mean distance below the poverty threshold, offering a continuous variable that captures nuanced movements, such as a family getting closer to the poverty line even if they haven’t yet crossed it. This will provide a more sensitive measure of policy efficacy than headcount ratios alone.\nI would also like to transition fro synthetic prototypes to the full database, the goal is to refactor our existing code to run on the full live database.This could potentially answer the interactive effect of demographic categories, enable me to create the alluvial diagram, and maybe discover some new information that could be visualized for storytelling purposes.\nWe will restructure the storyboard to be fully reproducible. Instead of hard-coded text in the current version, we will develop logic that dynamically generates insights (e.g., ‘This policy performed 5% better than the [Benchmark]’), ensuring the narrative adapts automatically to new data for every future simulation."
-  },
-  {
-    "objectID": "project_conclusion.html",
-    "href": "project_conclusion.html",
-    "title": "6  Conclusion",
-    "section": "",
-    "text": "6.1 Takeaway & Limitation\nThroughout this four-week project with CPSP, I successfully transitioned from static reporting to dynamic, narrative-driven visualization. I moved from ineffective slope charts to Waterfall and Stacked Difference models, and proved that preserving baseline context is essential for interpreting magnitude. By isolating the reduction as a distinct visual element, I transformed subtle percentage-point shifts into tangible evidence of policy success. Additionally, the demographic ranking prototype established a scalable framework for equity analysis, proving that even with limited datasets, we can move from disjointed tables to a unified ranking system that instantly identifies the primary beneficiaries of legislative change.\nOne limitation is that this analysis currently relies on microdataset and mock dataset created by myself to prototype the visualization logic. While this establishes a working framework, the production-level CPSP database likely contains higher dimensionality and structural complexity. Consequently, the code will require validation and potential refactoring to accommodate the full scale of the real data.\nAnother limitation is that the current visualizations effectively capture static comparisons of the poverty metrics. However, they do not capture the dynamics of change. The next phase of development should introduce alluvial diagrams to tell the flow story, which not just visualizes the net reduction in poverty, but the specific pathways families take to exit it. This narrative depth is critical for helping policymakers iterate on and improve simulation parameters.",
-    "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Conclusion</span>"
-    ]
-  },
-  {
-    "objectID": "project_conclusion.html#future-directions",
-    "href": "project_conclusion.html#future-directions",
     "title": "6  Conclusion",
     "section": "6.2 Future directions",
     "text": "6.2 Future directions\nTo address the limitation of purely categorical analysis，which tracks status but not depth, the next phase will incorporate a poverty gap analysis suggested by the supervisor. This metric measures the mean distance below the poverty threshold, offering a continuous variable that captures nuanced movements, such as a family getting closer to the poverty line even if they haven’t yet crossed it. This will provide a more sensitive measure of policy efficacy than headcount ratios alone.\nI would also like to transition fro synthetic prototypes to the full database, the goal is to refactor our existing code to run on the full live database.This could potentially answer the interactive effect of demographic categories, enable me to create the alluvial diagram, and maybe discover some new information that could be visualized for storytelling purposes.\nWe will restructure the storyboard to be fully reproducible. Instead of hard-coded text in the current version, we will develop logic that dynamically generates insights (e.g., ‘This policy performed 5% better than the [Benchmark]’), ensuring the narrative adapts automatically to new data for every future simulation.",
